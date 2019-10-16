@@ -9,8 +9,8 @@ class MyVisualizer extends AbstractVisualizer {
     }
 
     /**
-     * TODO(you): 
-     * 1) Call drawShapes() to re-draw the visual at the current time index.
+     * TODO(you): *
+    this.drawShapes();
      *    -- If you want to "conditionally" draw (ex. only draw at a certain
      *    BEAT in the song), what do you need to add?
      * 2) Add the requestAnimationFrame loop which recursively calls
@@ -19,19 +19,19 @@ class MyVisualizer extends AbstractVisualizer {
     updateVisual(peakIndex) {
       const audioEl = document.querySelector('#audio');
 
-      // If we pass an index greater than the # peaks, 
+      // If we pass an index greater than the # peaks,
       if (peakIndex >= this.peaks.length) {
           return;
       }
-      
+
       // TODO(you): "If"-statement here.
       // 1) Inspect the audioEl for time-related properties.
       // 2) Access the peak at peakIndex from the peaks array.
       // 3) Compare the time properties to peak properties (part 1 and 2 above):
       //    -- If the audio's current time is greater or equal to the time of
       //    the peak, draw visualizations (drawShapes).
-      if (//TODO(you): Logic statement from step 3) here
-      ) {
+      if (true){
+
 
         // Update the frame.
         requestAnimationFrame(() => {
@@ -66,7 +66,7 @@ getToken().then((token) => {
 /**
  * TODO(you): Add a 'click' event listener that starts the music.
  */
-document.getElementById('playButton').addEventListener('click', (clickEvent) => { 
+document.getElementById('playButton').addEventListener('click', (clickEvent) => {
   clickEvent.preventDefault();
 
   const audioEl = document.querySelector('#audio');
@@ -76,21 +76,21 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
   if(!audioEl.src) {
     // TODO(you): Use the spotifyApi to searchTracks for your input. Documentation can be found at:
     // https://doxdox.org/jmperez/spotify-web-api-js#src-spotify-web-api.js-constr.prototype.searchtracks
-    spotifyApi.searchTracks(// Add parameters here) 
+    spotifyApi.searchTracks('cynide',{limit: 1})
       .then((results) => {
-          // TODO(you): Access track from results to find a previewUrl.
+let previewUrl = "https://p.scdn.co/mp3-preview/e9eea9a1a01c1c43dddff6676304530c42d5bc2d?cid=2afca98576b4421595a2802803d0b92a"
         if (previewUrl) {
           // Sets the HTML audio element source to the music.
           audioEl.src = previewUrl;
 
           requestAudio(previewUrl, (audio) => {
-            // TODO(you): Use analyzeAudio to apply frequency analysis. 
+            // TODO(you): Use analyzeAudio to apply frequency analysis.
 
             // TODO(you): Create an instance of MyVisualizer using the
             // analyzed audio.
 
             audioEl.play();
-            
+
             // Use MyVisualizer's startVisual to start visualization.
             visualizer.startVisual();
           });
