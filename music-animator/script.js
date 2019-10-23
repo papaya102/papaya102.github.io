@@ -9,13 +9,8 @@ class MyVisualizer extends AbstractVisualizer {
     }
 
     /**
-<<<<<<< HEAD
-     * TODO(you): *
-    this.drawShapes();
-=======
-     * TODO(week 4): 
+     * TODO(week 4):
      * 1) Call drawShapes() to re-draw the visual at the current time index.
->>>>>>> upstream/master
      *    -- If you want to "conditionally" draw (ex. only draw at a certain
      *    BEAT in the song), what do you need to add?
      * 2) Add the requestAnimationFrame loop which recursively calls
@@ -81,9 +76,9 @@ document.getElementById('playButton').addEventListener('click', (clickEvent) => 
   if(!audioEl.src) {
     // TODO(you): Use the spotifyApi to searchTracks for your input. Documentation can be found at:
     // https://doxdox.org/jmperez/spotify-web-api-js#src-spotify-web-api.js-constr.prototype.searchtracks
-    spotifyApi.searchTracks('cynide',{limit: 1})
+    spotifyApi.searchTracks(queryInput.value,{limit: 1})
       .then((results) => {
-let previewUrl = "https://p.scdn.co/mp3-preview/e9eea9a1a01c1c43dddff6676304530c42d5bc2d?cid=2afca98576b4421595a2802803d0b92a"
+let previewUrl = results.tracks.items[0].preview_url
         if (previewUrl) {
           // Sets the HTML audio element source to the music.
           audioEl.src = previewUrl;
