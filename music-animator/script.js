@@ -1,5 +1,5 @@
 class MyVisualizer extends AbstractVisualizer {
-    constructor(analyzedAudio) {
+    constructor(analyzedAudio = []) {
       super();
       this.peaks = analyzedAudio.peaks;
     }
