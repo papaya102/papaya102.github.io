@@ -16,10 +16,10 @@ class AbstractVisualizer {
     this.drawBackground(this.canvas, {width: CANVAS_WIDTH, height: CANVAS_HEIGHT});
   }
 
-  drawRectangle(point1, point2, point3, point4, rectangleProperties = {}) {
+  drawRectangle(point1, point2, point3, point4, rectangleProperties) {
     const context = this.canvas.getContext("2d");
-    context.lineWidth = rectangleProperties.width || 5;
-    context.strokeStyle = rectangleProperties.color || '#FF00000';
+    context.lineWidth = rectangleProperties.width;
+    context.strokeStyle = rectangleProperties.color;
 
     context.moveTo(point1.x, point1.y);
     context.lineTo(point2.x, point2.y);
@@ -32,7 +32,8 @@ class AbstractVisualizer {
 
   drawSquare(startingPoint, sideLength, squareProperties) {
     const context = this.canvas.getContext("2d");
-    context.fillStyle = squareProperties.color;
+    context.strokeStyle = squareProperties.color;
+    context.lineWidth = squareProperties.width;
     context.moveTo(startingPoint.x, startingPoint.y);
     context.beginPath();
     context.lineTo(startingPoint.x+sideLength, startingPoint.y);
@@ -40,16 +41,17 @@ class AbstractVisualizer {
     context.lineTo(startingPoint.x, startingPoint.y+sideLength);
     context.lineTo(startingPoint.x, startingPoint.y);
     context.fill();
-    context.lineWidth = squareProperties.width;
-    context.strokeStyle = squareProperties.color;
     context.stroke();
   }
 
-  drawCircle() {
-    // TODO(week 3): Implement.
-    // See here for more information:
-    // https://developer.mozilla.org/en-US/docs/Web/API/CanvasRenderingContext2D/arc
+  drawCircle(center, radius, color) {
+    const context = this.canvas.getContext("2d");
+    context.strokeStyle = color.color;
+    context.beginPath();
+context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
+context.stroke();
   }
+
 
   drawBackground(canvas, canvasDimensions, color = BACKGROUND_COLOR) {
     const context = canvas.getContext("2d");
@@ -79,7 +81,7 @@ function generateRandomValue(minValue = 1, maxValue = 10) {
 }
 
 function generateRandomPoint() {
-  // TODO:
+
   // Use generateRandomValue to create a ranom x and a random y value.
   // HINT: we can use the constants CANVAS_HEIGHT and CANVAS_WIDTH for the max
   //     x and y values.

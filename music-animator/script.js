@@ -112,3 +112,10 @@ let previewUrl = results.tracks.items[0].preview_url
 		document.getElementById('playCircle').setAttribute("class", "playing");
   }
 });
+
+let squack = new MyVisualizer();
+squack.drawSquare({x: 500, y: 500}, 10, {color: '#0000FF' , width: 60 });
+
+squack.drawRectangle({x: 300, y:300}, {x:400, y:300}, {x:400, y:400}, {x:500, y:400}, {color: '#FF0000' , width: 15});
+
+squack.drawCircle({x: 400, y: 200}, 50, {color: '#00FF00'});
