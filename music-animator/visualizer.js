@@ -1,6 +1,7 @@
 const CANVAS_WIDTH = 1000;
 const CANVAS_HEIGHT = 600;
-const BACKGROUND_COLOR = "white";
+const BACKGROUND_COLOR = generateRandomColor();
+let R = generateRandomValue();
 
 class AbstractVisualizer {
   constructor() {
@@ -44,9 +45,11 @@ class AbstractVisualizer {
     context.stroke();
   }
 
-  drawCircle(center, radius, color) {
+  drawCircle(center, radius, width, color) {
     const context = this.canvas.getContext("2d");
-    context.strokeStyle = color.color;
+    context.lineWidth = width;
+    context.strokeStyle = color;
+    context.fillStyle = color;
     context.beginPath();
 context.arc(center.x, center.y, radius, 0, 2 * Math.PI);
 context.stroke();
@@ -60,6 +63,23 @@ context.stroke();
     context.fillStyle = color;
     context.fillRect(0, 0, canvasDimensions.width, canvasDimensions.height);
   }
+  clearCanvas(){
+  const context = canvas.getContext('2d');
+  context.clearRect(0,0, canvas.width, canvas.height )
+
+  }
+  //BROKEN PLEASE FIX ME
+  //AHHHHHHHHH
+  //HELP
+  animateCircle(){
+  this.clearCanvas();
+this.drawCircle(generateRandomPoint(), R, generateRandomValue(), generateRandomColor());
+  R = R + 10;
+  if(R>=126){
+    this.clearCanvas();
+  }
+
+    }
 }
 
 
@@ -74,19 +94,17 @@ function generateRandomColor() {
 /**
  * Generates a random value between [min, max] (inclusive).
  */
-function generateRandomValue(minValue = 1, maxValue = 10) {
+function generateRandomValue(minValue = 1, maxValue = 150) {
   min = Math.ceil(minValue);
   max = Math.floor(maxValue);
   return Math.floor(Math.random() * (max - min + 1) + min);
 }
 
+
 function generateRandomPoint() {
 
-  // Use generateRandomValue to create a ranom x and a random y value.
-  // HINT: we can use the constants CANVAS_HEIGHT and CANVAS_WIDTH for the max
-  //     x and y values.
   return {
-    x: 0,
-    y: 0,
+    x: generateRandomValue(0, CANVAS_WIDTH),
+    y: generateRandomValue(0,CANVAS_HEIGHT)
   };
 }

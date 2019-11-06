@@ -30,14 +30,20 @@ class MyVisualizer extends AbstractVisualizer {
       // 3) Compare the time properties to peak properties (part 1 and 2 above):
       //    -- If the audio's current time is greater or equal to the time of
       //    the peak, draw visualizations (drawShapes).
-      if (true){
-
+      if (audioEl.currentTime >= this.peaks[peakIndex]["timeOfPeak"]){
+        this.clear();
+        this.start();
+        this.drawShapes();
 
         // Update the frame.
         requestAnimationFrame(() => {
           this.updateVisual(peakIndex + 1)
         });
       } else {
+        //BROKEN PLEASE FIX ME
+        //AHHHHHHHHH
+        //HELP
+        this.animateCircle();
         // Otherwise, render the current (existing) visualization)
         requestAnimationFrame(() => {
           this.updateVisual(peakIndex)
@@ -49,7 +55,12 @@ class MyVisualizer extends AbstractVisualizer {
      * TODO(week 4): Draw the shapes you'd expect to see in your visual.
      */
     drawShapes() {
-        // Look at AbstractVisualizer class for functions.
+      for(let i = 0; i <generateRandomValue(3,15); i++){
+        this.drawCircle(generateRandomPoint(), generateRandomValue(), generateRandomValue(), generateRandomColor());
+      }
+    }
+    clear(){
+      this.clearCanvas();
     }
 }
 
@@ -85,14 +96,19 @@ let previewUrl = results.tracks.items[0].preview_url
 
           requestAudio(previewUrl, (audio) => {
             // TODO(you): Use analyzeAudio to apply frequency analysis.
+            let analyzedAudio = analyzeAudio(audio);
 
             // TODO(you): Create an instance of MyVisualizer using the
             // analyzed audio.
 
+           let squack = new MyVisualizer(analyzedAudio);
+
+
             audioEl.play();
 
             // Use MyVisualizer's startVisual to start visualization.
-            visualizer.startVisual();
+            squack.startVisual();
+
           });
         } else {
           console.warn('This song does not have a preview');
@@ -114,8 +130,8 @@ let previewUrl = results.tracks.items[0].preview_url
 });
 
 let squack = new MyVisualizer();
-squack.drawSquare({x: 500, y: 500}, 10, {color: '#0000FF' , width: 60 });
+//squack.drawSquare(generateRandomPoint(), 10, {color: '#0000FF' , width: 60 });
 
-squack.drawRectangle({x: 300, y:300}, {x:400, y:300}, {x:400, y:400}, {x:500, y:400}, {color: '#FF0000' , width: 15});
+//squack.drawRectangle({x: 300, y:300}, {x:400, y:300}, {x:400, y:400}, {x:500, y:400}, {color: '#FF0000' , width: 15});
 
-squack.drawCircle({x: 400, y: 200}, 50, {color: '#00FF00'});
+squack.drawCircle(generateRandomPoint(), 50, {width: 40, color: '#00FF00'});
