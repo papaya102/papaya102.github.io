@@ -63,11 +63,10 @@ form img {
 	left: 0;
 	width: 803px;
 	height: 506px;
-	background-color: #7e7e7e;
+	background-color: #FFB6C1;
 }
 
 input[type="range"] {
 	width: 80px;
 	vertical-align: bottom;
 }
-
