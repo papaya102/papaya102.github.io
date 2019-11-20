@@ -24,10 +24,11 @@ class Canvas{
     var ctx = this.ctx;
     var size = this.cellSize;
 
-    				ctx.fillStyle = "#FFB6C1";
+//grid code
+    				ctx.fillStyle = "#FFC0CB"; //must be slightly darker than the background color
     				ctx.lineWidth = 1;
     				ctx.fillRect (0, 0, this.pixelWidth, this.pixelHeight);
-    				ctx.strokeStyle = "#999";
+    				ctx.strokeStyle = "#800000"; //grid line colors, in this case maroon
 
             for(var n = this.cellSize; n < this.pixelWidth; n += this.cellSize) {
 					ctx.beginPath();
@@ -41,9 +42,23 @@ class Canvas{
 					ctx.lineTo(this.pixelWidth, n+.5);
 					ctx.stroke();
 				}
+//////////
+
+ctx.fillStyle = "#2F4F4F";
+//ctx.fillRect(X, Y, width, height);
+
 
   }
+
   click(fn){
+  this.obj.addEventListener('click', (event)=> {
+    var cellSize = Canvas.cellSize;
+    var clickEvent = {};
+    var squack = this.obj.getBoudningClientRect();
+    clickEvent.cellX = Math.floor((evt.clientX - left + window.pageXOffset) / cellSize);
+            clickEvent.cellY = Math.floor((evt.clientY - top + window.pageYOffset - 5) / cellSize); //offset is function
+            fn(clickEvent);
+  });
 
   }
   getDemension(){
@@ -84,7 +99,10 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
 
     }
     toggle(cell){
-
+      const mitochondria = [event.cellX, event.cellY]; //is the powerhouse of the cell
+      const push = this.current.push(mitochondria);
+      this.redraw()
+      this.canvas.draw(this.current);
     }
   }
 
@@ -99,7 +117,10 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
       this.generation = 0;
     }
     init(shapes){
-
+      this.canvas.click((event) => {
+        clickEvent.cellX = Math.floor((evt.clientX - left + window.pageXOffset) / cellSize);
+				clickEvent.cellY = Math.floor((evt.clientY - top + window.pageYOffset - 5) / cellSize)
+      });
     }
     setGeneration(gen){
 
@@ -117,3 +138,4 @@ let canvasInstance = new Canvas(canvasElement);
 let shapeInstance = new Shape(canvasInstance);
 let gameoflifeInstance = new Gameoflife();
 let controlsInstance = new Controls(canvasInstance, shapeInstance, gameoflifeInstance);
+canvasInstance.draw();
