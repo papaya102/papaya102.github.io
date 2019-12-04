@@ -3,7 +3,11 @@ class Gameoflife{
   constructor(){
 
   }
-    next(shape){
+    next(shape){ // shape = [[0, 0], [3, 4], ...]
+      let neighbor = {n: 8, cell:[], pop: true};
+      for(var i = 0; i < shape.length; i++){
+        var cell = shape[i];
+      }
 
     }
 }
@@ -20,7 +24,7 @@ class Canvas{
     this.ctx = this.obj.getContext('2d');
     this.setGridSize(11);
   }
-  draw(cell){
+  draw(cells){
     var ctx = this.ctx;
     var size = this.cellSize;
 
@@ -44,9 +48,19 @@ class Canvas{
 				}
 //////////
 
-ctx.fillStyle = "#2F4F4F";
-//ctx.fillRect(X, Y, width, height);
 
+
+    this.ctx.fillStyle = "#2F4F4F";
+        for(let i = 0; i < cells.length; i++){
+            let cell = cells[i];
+            let x = cell[0];
+            let y = cell[1];
+            this.ctx.fillRect(
+              x * this.cellSize + 1,
+              y * this.cellSize + 1,
+              this.cellSize - 1,
+              this.cellSize - 1)
+}
 
   }
 
@@ -54,10 +68,21 @@ ctx.fillStyle = "#2F4F4F";
   this.obj.addEventListener('click', (event)=> {
     var cellSize = Canvas.cellSize;
     var clickEvent = {};
-    var squack = this.obj.getBoudningClientRect();
-    clickEvent.cellX = Math.floor((evt.clientX - left + window.pageXOffset) / cellSize);
-            clickEvent.cellY = Math.floor((evt.clientY - top + window.pageYOffset - 5) / cellSize); //offset is function
-            fn(clickEvent);
+    var squack = this.obj.getBoundingClientRect();
+  let clientX = clickEvent.clientX;
+  let clientY = clickEvent.clientY;
+
+  let canvasX = clientX - squack.left;
+  let canvasY = clientY - squack.top;
+
+  let cellX = Math.floor(canvasX/this.cellSize);
+  let cellY = Math.floor(canvasY/this.cellSize);
+
+fn({cellX: cellX, cellY: cellY});
+
+console.log("cellX: " + cellX, "cellY: " + cellY);
+
+
   });
 
   }
@@ -81,7 +106,7 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
     }
 
     get(){
-
+      return this.current;
     }
     set(shape){
 
@@ -90,6 +115,7 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
 
     }
     redraw(){
+      this.canvasInstance.draw(this.current);
 
     }
     center(){
@@ -99,10 +125,12 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
 
     }
     toggle(cell){
-      const mitochondria = [event.cellX, event.cellY]; //is the powerhouse of the cell
-      const push = this.current.push(mitochondria);
-      this.redraw()
-      this.canvas.draw(this.current);
+      //const mitochondria = [event.cellX, event.cellY]; //is the powerhouse of the cell
+    //  const push = this.current.push(mitochondria);
+    //  this.redraw();
+      //this.canvas.draw(this.current);
+      this.current.push(cell);
+      this.redraw();
     }
   }
 
@@ -118,9 +146,11 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
     }
     init(shapes){
       this.canvas.click((event) => {
-        clickEvent.cellX = Math.floor((evt.clientX - left + window.pageXOffset) / cellSize);
-				clickEvent.cellY = Math.floor((evt.clientY - top + window.pageYOffset - 5) / cellSize)
+
       });
+        this.canvas.click((event) => {
+              this.shape.toggle([event.cellX, event.cellY])
+          });
     }
     setGeneration(gen){
 
@@ -129,7 +159,11 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
 
     }
     next(){
-
+let cellShape = this.shape.get();
+  shape = this.gameOfLife.next(cellShape);
+  this.shape.set(shape);
+  this.shape.redraw();
+  this.setGeneration(this.generation + 1);
     }
   }
 
@@ -138,4 +172,5 @@ let canvasInstance = new Canvas(canvasElement);
 let shapeInstance = new Shape(canvasInstance);
 let gameoflifeInstance = new Gameoflife();
 let controlsInstance = new Controls(canvasInstance, shapeInstance, gameoflifeInstance);
-canvasInstance.draw();
+canvasInstance.draw(1);
+controlsInstance.init();
