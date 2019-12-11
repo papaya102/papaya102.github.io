@@ -4,13 +4,92 @@ class Gameoflife{
 
   }
     next(shape){ // shape = [[0, 0], [3, 4], ...]
-      let neighbor = {n: 8, cell:[], pop: true};
+      let neighbor = {};
       for(var i = 0; i < shape.length; i++){
         var cell = shape[i];
-      }
+        let key;
 
-    }
+        key = 'c'+(cell[0]-1)+','+(cell[1]-1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]-1, cell[1]-1]};
+  			}
+
+  			key = 'c'+(cell[0])+','+(cell[1]-1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0], cell[1]-1]};
+  			}
+
+  			key = 'c'+(cell[0]+1)+','+(cell[1]-1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]+1, cell[1]-1]};
+  			}
+
+  			key = 'c'+(cell[0]-1)+','+(cell[1]);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]-1, cell[1]]};
+  			}
+
+  			key = 'c'+(cell[0]+1)+','+(cell[1]);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]+1, cell[1]]};
+  			}
+
+  			key = 'c'+(cell[0]-1)+','+(cell[1]+1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]-1, cell[1]+1]};
+  			}
+
+  			key = 'c'+(cell[0])+','+(cell[1]+1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0], cell[1]+1]};
+  			}
+
+  			key = 'c'+(cell[0]+1)+','+(cell[1]+1);
+  			if (neighbours[key]) {
+  				neighbours[key].n++;
+  			} else {
+  				neighbours[key] = {n: 1, cell: [cell[0]+1, cell[1]+1]};
+  			}
+  		}
+
+for(let i = 0; i < shape.length; i++) {
+     let cell = shape[i];
+     let key = 'c' + cell[0] + ',' + cell[1];
+     if (neighbours[key]) {
+       neighbours[key].populated = true;
+     }
+   };
+
+   let newShape = [];
+   		for (let key in neighbours) {
+   			let currentNeighbour = neighbours[key];
+        let numofNeighbours = currentNeighbour.n;
+        let populatedNeighbours  = currentNeighbour.populated;
+        let cell = currentNeighbour.cell;
+
+        if(currentNeighbours == 2 || currentNeighbours == 3){
+          nextShape.push(cell);
+        } else if(!populated){
+            nextShape.push(cell);
+        }
 }
+        return newShape;
+      }
+    }
 
 class Canvas{
   constructor(container){
@@ -50,7 +129,7 @@ class Canvas{
 
 
 
-    this.ctx.fillStyle = "#2F4F4F";
+    this.ctx.fillStyle = "#FFF5EE";
         for(let i = 0; i < cells.length; i++){
             let cell = cells[i];
             let x = cell[0];
@@ -66,11 +145,10 @@ class Canvas{
 
   click(fn){
   this.obj.addEventListener('click', (event)=> {
-    var cellSize = Canvas.cellSize;
-    var clickEvent = {};
+    var cellSize = this.cellSize;
     var squack = this.obj.getBoundingClientRect();
-  let clientX = clickEvent.clientX;
-  let clientY = clickEvent.clientY;
+  let clientX = event.clientX;
+  let clientY = event.clientY;
 
   let canvasX = clientX - squack.left;
   let canvasY = clientY - squack.top;
@@ -115,7 +193,7 @@ this.height = Math.floor(this.pixelHeight/this.cellSize);
 
     }
     redraw(){
-      this.canvasInstance.draw(this.current);
+      this.canvas.draw(this.current);
 
     }
     center(){
